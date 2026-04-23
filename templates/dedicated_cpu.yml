@@ -1,0 +1,14 @@
+{% extends "base.jinja" %}
+{% block datavolume_template %}{% endblock %}
+
+{% block domain_cpu %}
+        cpu:
+          dedicatedCpuPlacement: true
+          isolateEmulatorThread: true
+          cores: 1
+          sockets: 1
+          threads: 1
+{% endblock %}
+
+
+

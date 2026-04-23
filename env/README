@@ -1,0 +1,11 @@
+This directory is used to place the kubeconfig file for each RHEL testing.
+It is mainly used by Jenkins CI.
+
+The kubeconfig file should be placed under 'auth' directory by following hierarchy.
+The <ocp-server> is the domain name of the OCP server.
+
+env/
+├── <ocp-server>
+│   ├── <cluster-name>
+│   │   └── auth
+│   └── README

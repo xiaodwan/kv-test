@@ -1,0 +1,49 @@
+{% extends "base.jinjia" %}
+
+{% from 'macros.jinja' import add_datavolumetemplate_target_storage %}
+{% block datavolume_target %}
+{{- add_datavolumetemplate_target_storage("ocs-storagecluster-cephfs") -}}
+{% endblock %}
+
+{% block template_spec_domain_memory %}
+  {% if "template.spec.template.spec.domain.resources" is unknown -%}
+    {{ super() }}
+  {%- endif %}
+{% endblock %}
+{% block template_spec_domain_cpu %}
+  {% if "template.spec.template.spec.domain.resources" is unknown -%}
+    {{ super() }}
+  {%- endif %}
+{% endblock %}
+{% block resources %}
+  {% if "template.spec.template.spec.domain.resources" is not unknown -%}
+    {{ super() }}
+  {%- endif %}
+{% endblock %}
+
+{% from 'macros.jinja' import add_disks %}
+{% block disks %}
+{{ super() }}
+{%- for nr in range(3) %}
+  {{- add_disks('mydisk-' ~ nr, bus='virtio') -}}
+{% endfor %}
+{% endblock %}
+
+{% from 'macros.jinja' import add_dev_filesystems %}
+{% block filesystems %}
+{{- add_dev_filesystems("mydev") -}}
+{{- add_dev_filesystems("mydev-2", False) -}}
+{% endblock %}
+
+{% from 'macros.jinja' import add_network_multus %}
+{% block networks %}
+{{ super() }}
+{{- add_network_multus('mynet', default=True) -}}
+{% endblock %}
+
+{% from 'macros.jinja' import add_vol_configmap,add_vol_downwardapi %}
+{% block volumes %}
+{{ super() }}
+{{- add_vol_configmap('my_vol_cm', name="my-cm") -}}
+{{- add_vol_downwardapi('downwardapi-fs') -}}
+{% endblock %}

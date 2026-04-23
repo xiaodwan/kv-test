@@ -1,0 +1,27 @@
+# Default configuration for HCO and VM.
+# Only few configuration are supported.
+vm:
+  namespace: autotest
+network:
+  net_name: "sriov-network-auto"
+storage:
+  rbd_storage_class: "ocs-storagecluster-ceph-rbd"
+  cephfs_storage_class: "ocs-storagecluster-cephfs"
+gpu:
+  pci_dev: "10DE:25B6"
+  resource_name: "nvidia.com/NVIDIA_A2_A16"
+vgpu:
+  mediated_dev: "NVIDIA A2-4Q"
+  resource_name: "nvidia.com/NVIDIA_A2_4Q"
+hco:
+  feature_gates:
+    - EnableVirtioFsConfigVolumes
+    - EnableVirtioFsStorageVolumes
+    - VMLiveUpdateFeatures
+    - CPUManager
+    - Snapshot
+    - VMPersistentState
+    - HotplugVolumes
+  customize_images:
+    virt_launcher: ""
+    virt_handler: ""

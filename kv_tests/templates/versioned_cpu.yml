@@ -1,0 +1,12 @@
+{% extends "base.jinja" %}
+{% import 'macros.jinja' as funcs %}
+
+{% block datavolume_template %}{% endblock %}
+{% block domain_cpu %}
+        cpu:
+          model: Skylake-Client-v4
+          cores: 1
+          sockets: 1
+          threads: 1
+{% endblock %}
+

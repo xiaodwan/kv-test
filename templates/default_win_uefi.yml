@@ -1,0 +1,30 @@
+{% set img_url = "http://example-server/win2025-x86_64-efi.img" %}
+{% extends "base.jinja" %}
+{% import 'macros.jinja' as funcs %}
+
+{% block datavolume_target %}
+{{- funcs.add_datavolumetemplate_target_storage("ocs-storagecluster-ceph-rbd", "Block", size="60Gi") -}}
+{% endblock %}
+
+{% block datavolume_source %}
+{{- funcs.add_datavolumetemplate_source_http("http://example-server/win2025-x86_64-efi.img") -}}
+{% endblock %}
+
+{% block volumes %}
+{{- funcs.add_vol_datavolume("rootdisk", datavolume_name) -}}
+{% endblock %}
+
+{% block domain_memory %}
+        memory:
+          guest: "4Gi"
+{% endblock %}
+
+{% block domain_others %}
+        features:
+          acpi: {}
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
+{% endblock %}

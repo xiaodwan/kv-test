@@ -1,0 +1,44 @@
+{% extends "base.jinja" %}
+{% import 'macros.jinja' as funcs %}
+
+{% block volumes %}
+{{- funcs.add_vol_datavolume("rootdisk", datavolume_name) -}}
+{% endblock %}
+
+{% block domain_others %}
+        features:
+          acpi: {}
+          smm:
+            enabled: true
+          hyperv:
+            relaxed: {}
+            vapic: {}
+            spinlocks:
+              spinlocks: 8192
+            vpindex: {}
+            runtime: {}
+            synic: {}
+            synictimer:
+              direct: {}
+            reset: {}
+            vendorid:
+              vendorid: "KVM Hv"
+            frequencies: {}
+            reenlightenment: {}
+            tlbflush: {}
+            ipi: {}
+            evmcs: {}
+        clock:
+          timer:
+            hpet:
+              present: false
+            hyperv: {}
+            pit:
+              tickPolicy: delay
+            rtc:
+              tickPolicy: catchup
+          utc: {}
+        firmware:
+          bootloader:
+            efi: {}
+{% endblock %}

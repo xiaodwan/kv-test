@@ -1,0 +1,111 @@
+{# A basic VM template, uses can extend it to customize their own VM #}
+{% set vm_name="auto-example" %}
+{% set datavolume_name = "dvt-" ~ vm_name %}
+{% set img_url = "http://imageserver.com/RHEL-9.7-x86_64-latest-ovmf.qcow2" %}
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+{% block vm_metadata %}
+metadata:
+  name: {{ vm_name }}
+  annotations:
+    description: VM for automation
+  labels:
+    app: {{ vm_name }}
+    os.template.kubevirt.io/fedora: 'true'
+    auto-test: 'true'
+{% endblock %}
+spec:
+  {% block datavolume_template %}
+  dataVolumeTemplates:
+    - metadata:
+        name: {{ datavolume_name }}
+      spec:
+        {% block datavolume_target %}
+        pvc:
+          accessModes:
+            - ReadWriteMany
+          resources:
+            requests:
+              storage: 20Gi
+          storageClassName: "ocs-storagecluster-cephfs"
+          {% set volume_mode = "Filesystem" %}
+          volumeMode: "Filesystem"
+        {% endblock datavolume_target %}
+        source:
+        {% block datavolume_source %}
+          http:
+            url: >-
+              {{ img_url }}
+        {% endblock datavolume_source %}
+  {% endblock datavolume_template %}
+  {% block run_strategy %}
+  runStrategy: 'Halted'
+  {% endblock run_strategy %}
+  template:
+    metadata:
+      annotations:
+        vm.kubevirt.io/flavor: small
+        vm.kubevirt.io/os: fedora
+        vm.kubevirt.io/workload: server
+      labels:
+        kubevirt.io/domain: {{ vm_name }}
+        kubevirt.io/size: small
+    spec:
+      domain:
+        {% block domain_others %}{% endblock %}
+        {% block domain_cpu %}
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        {% endblock %}
+        {% block domain_memory %}
+        memory:
+          guest: "2Gi"
+        {% endblock %}
+        {% block domain_resources %}{% endblock %}
+        devices:
+          {% block disks %}
+          disks:
+            - disk:
+                bus: virtio
+              name: rootdisk
+            - disk:
+                bus: virtio
+              name: cloudinitdisk
+          {% endblock %}
+          {% block filesystems %}{% endblock %}
+          {% block interface %}
+          interfaces:
+            - masquerade: {}
+              model: virtio
+              name: default
+          {% endblock %}
+          {% block other_devices %}
+          networkInterfaceMultiqueue: true
+          rng: {}
+          {% endblock other_devices %}
+      hostname: {{ vm_name }}
+      {% block networks %}
+      networks:
+        - name: default
+          pod: {}
+      {% endblock %}
+      terminationGracePeriodSeconds: 180
+      {% block spec_others %}{% endblock %}
+      volumes:
+        {% block volumes %}
+        - name: rootdisk
+          containerDisk:
+            image: 'quay.io/containerdisks/fedora'
+        {% endblock %}
+        {% block cloudinitdisk %}
+        - cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              user: fedora
+              password: fedora
+              chpasswd: { expire: False }
+          name: cloudinitdisk
+        {% endblock %}

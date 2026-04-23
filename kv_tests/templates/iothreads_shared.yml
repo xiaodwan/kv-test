@@ -1,0 +1,36 @@
+{% extends "base.jinja" %}
+{% import 'macros.jinja' as funcs %}
+
+{% block domain_others %}
+{{ "        ioThreadsPolicy: shared" }}
+{% endblock %}
+
+{% block datavolume_template %}{% endblock %}
+
+{% block domain_cpu %}{% endblock %}
+{% block domain_memory %}{% endblock %}
+{% block domain_resources %}
+{{- funcs.add_domain_resources() -}}
+{% endblock %}
+
+{% block disks %}
+{{ super() }}
+{{- funcs.add_disks("emptydisk", bus="virtio") -}}
+{{ "              dedicatedIOThread: true" }}
+{{ funcs.add_disks("emptydisk2", bus="virtio") -}}
+{{ "              dedicatedIOThread: true" }}
+{% for nr in range(3, 7) %}
+  {{- funcs.add_disks('emptydisk' ~ nr, bus='virtio') -}}
+{% endfor %}
+{% endblock %}
+
+{% block volumes %}
+{{ super() }}
+{%- for nr in range(0, 7) %}
+  {% if nr == 0 %}
+    {{- funcs.add_vol_emptydisk('emptydisk') -}}
+  {% else %}
+    {{- funcs.add_vol_emptydisk('emptydisk' ~ nr) -}}
+  {% endif %}
+{% endfor %}
+{% endblock %}

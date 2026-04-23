@@ -1,0 +1,29 @@
+{% extends "base.jinja" %}
+{% import 'macros.jinja' as funcs %}
+
+{% block volumes %}
+{{- funcs.add_vol_datavolume("rootdisk", datavolume_name) -}}
+{% endblock %}
+
+{% block domain_cpu %}
+        cpu:
+          cores: 4
+          sockets: 1
+          threads: 1
+{% endblock %}
+
+{% block domain_memory %}
+        memory:
+          guest: "2Gi"
+{% endblock %}
+
+{% block domain_resources %}
+        resources:
+          overcommitGuestOverhead: true
+          requests:
+            memory: "1Gi"
+            cpu: "2"
+          limits:
+            memory: "2Gi"
+            cpu: "4"
+{% endblock %}

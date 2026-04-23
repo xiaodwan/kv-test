@@ -1,0 +1,168 @@
+{% macro add_datavolumetemplate_target_pvc(sc_name, volume_mode="Filesystem", access_mode="ReadWriteMany", size="20Gi") %}
+        pvc:
+          accessModes:
+            - ReadWriteMany
+          resources:
+            requests:
+              storage: {{ size }}
+          storageClassName: {{ sc_name }}
+          volumeMode: {{ volume_mode }}
+{% endmacro %}
+
+{% macro add_datavolumetemplate_target_storage(sc_name, volume_mode="Filesystem", access_mode="ReadWriteMany", size="20Gi") %}
+        storage:
+          accessModes:
+            - ReadWriteMany
+          resources:
+            requests:
+              storage: {{ size }}
+          storageClassName: {{ sc_name }}
+          volumeMode: {{ volume_mode }}
+{% endmacro %}
+
+{% macro add_datavolumetemplate_source_http(url) %}
+          http:
+            url: {{ url }}
+{% endmacro %}
+
+{% macro add_vol_datavolume(vol_name, name) %}
+        - dataVolume:
+            name: {{ name }}
+          name: {{ vol_name }}
+{% endmacro %}
+
+{% macro add_vol_pvc(vol_name, claimName) %}
+        - persistentVolumeClaim:
+            claimName: {{ claimName }}
+          name: {{ vol_name }}
+{% endmacro %}
+
+{% macro add_vol_containerdisk(vol_name, image='quay.io/containerdisks/fedora') %}
+        - name: {{ vol_name }}
+          containerDisk:
+            image: {{ image_url }}
+{% endmacro %}
+
+{% macro add_vol_emptydisk(vol_name, capacity="1Gi") %}
+        - emptyDisk:
+            capacity: {{ capacity }}
+          name: {{ vol_name }}
+{% endmacro %}
+
+{% macro add_vol_containerdisk(vol_name, image='quay.io/containerdisks/fedora') %}
+        - name: {{ vol_name }}
+          containerDisk:
+            image: {{ image_url }}
+{% endmacro %}
+
+{# add_vol_configmap(vol-name, name="cm_name") #}
+{% macro add_vol_configmap(vol_name) %}
+        - configMap:
+            name: {{ kwargs['name'] }}
+          name: {{ vol_name }}
+{% endmacro %}
+
+{% macro add_vol_secret(vol_name, secretName) %}
+        - secret:
+            secretName: {{ secretName }}
+          name: {{ vol_name }}
+{% endmacro %}
+
+{% macro add_vol_secret_account(vol_name, serviceAccountName) %}
+        - serviceAccount:
+            serviceAccountName: {{ serviceAccountName }}
+          name: {{ vol_name }}
+{% endmacro %}
+
+{% macro add_vol_downwardapi(vol_name) %}
+        - downwardAPI:
+            fields:
+              - fieldRef:
+                 fieldPath: metadata.name
+                path: name
+              - fieldRef:
+                 fieldPath: metadata.labels
+                path: labels
+          name: {{ vol_name }}
+{% endmacro %}
+
+{% macro add_dev_filesystems(dev_name, statement=True) %}
+        {% if statement %}
+          filesystems:
+        {% endif %}
+            - name: {{ dev_name }}
+              virtiofs: {}
+{% endmacro %}
+
+{% macro add_network_multus(net_name, network_name, default=None) %}
+        - name: {{ net_name }}
+          multus:
+            networkName: {{ network_name }}
+          {% if default is not none %}
+            default: {{ default }}
+          {% endif %}
+{% endmacro %}
+
+{% macro add_network_pod(net_name, ipv6network_cidr=None, network_cidr=None) %}
+        - name: {{ net_name }}
+        {% if ipv6network_cidr is none and network_cidr is none %}
+          pod: {}
+        {% else %}
+          pod:
+          {% if ipv6network_cidr is not none %}
+            vmIPv6NetworkCIDR: {{ ipv6network_cidr }}
+          {% endif %}
+          {% if network_cidr is not none %}
+            vmNetworkCIDR: {{ network_cidr }}
+          {% endif %}
+        {% endif %}
+{% endmacro %}
+
+{% macro add_disks(disk_name) %}
+            - disk:
+                bus: {{ kwargs['bus'] }}
+              name: {{ disk_name }}
+{% endmacro %}
+{# add_vol_configmap(vol-name, name="cm_name") #}
+{% macro add_vol_configmap(vol_name) %}
+        - configMap:
+            name: {{ kwargs['name'] }}
+          name: {{ vol_name }}
+{% endmacro %}
+
+{% macro add_network_multus(net_name, network_name, default=None) %}
+        - name: {{ net_name }}
+          multus:
+            networkName: {{ network_name }}
+          {% if default is not none %}
+            default: {{ default }}
+          {% endif %}
+{% endmacro %}
+
+{% macro add_network_pod(net_name, ipv6network_cidr=None, network_cidr=None) %}
+        - name: {{ net_name }}
+        {% if ipv6network_cidr is none and network_cidr is none %}
+          pod: {}
+        {% else %}
+          pod:
+          {% if ipv6network_cidr is not none %}
+            vmIPv6NetworkCIDR: {{ ipv6network_cidr }}
+          {% endif %}
+          {% if network_cidr is not none %}
+            vmNetworkCIDR: {{ network_cidr }}
+          {% endif %}
+        {% endif %}
+{% endmacro %}
+
+{% macro add_disks(disk_name) %}
+            - disk:
+                bus: {{ kwargs['bus'] }}
+              name: {{ disk_name }}
+{% endmacro %}
+
+{% macro add_domain_resources(request_memory="2Gi", request_cpu=2) %}
+        resources:
+          requests:
+            memory: {{ request_memory }}
+            cpu: {{ request_cpu }}
+{% endmacro %}

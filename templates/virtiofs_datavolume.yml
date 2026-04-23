@@ -1,0 +1,15 @@
+{% extends "base.jinja" %}
+{% import 'macros.jinja' as funcs %}
+
+{% set dev_fs_name = "config-fs" %}
+
+{% block datavolume_template %}{% endblock %}
+
+{% block filesystems %}
+{{- funcs.add_dev_filesystems(dev_fs_name) -}}
+{% endblock %}
+
+{% block volumes %}
+{{ super() }}
+{{- funcs.add_vol_datavolume(dev_fs_name, "mydv") -}}
+{% endblock %}

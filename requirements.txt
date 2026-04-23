@@ -1,0 +1,4 @@
+Jinja2
+avocado-framework
+openshift-python-wrapper
+aexpect

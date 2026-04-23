@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build artifacts
+build-images/
+*.tar
+*.tar.gz
+
+# Environment files
+.env
+rebuild-virt-images.env
