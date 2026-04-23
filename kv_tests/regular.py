@@ -2,14 +2,14 @@ import json
 import xml.etree.ElementTree as ET
 
 from utils.utils import escape_ansi, random_rfc1123_string
-from utils.kubevirt import PreIntegrationTest, wait, run_command
+from utils.kubevirt import KubeVirtTest, wait, run_command
 from utils.constants import VIRTCTL_CMD
 from simple_logger.logger import get_logger
 
 LOGGER = get_logger(name=__name__)
 
 
-class RegularOperationTest(PreIntegrationTest):
+class RegularOperationTest(KubeVirtTest):
     def setUp(self):
         LOGGER.setLevel("DEBUG")
         # VM template file

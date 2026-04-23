@@ -85,7 +85,7 @@ podman run -it \
 -e KUBECONFIG=env/<ocp-server>/<cluster-name>/auth/kubeconfig \
 --privileged --rm \
 -v /root/avocado/:/root/avocado \
--v .:/pre-integration quay.io/wxdwindy/fedora_42:latest \
+-v .:/kubevirt-test quay.io/wxdwindy/fedora_42:latest \
 avocado run --max-parallel-tasks=1 kv_tests/vtpm.py:VTPMTest.test_vtpm_persistent_true
 ```
 

@@ -1,4 +1,4 @@
-from utils.kubevirt import PreIntegrationTest, run_command
+from utils.kubevirt import KubeVirtTest, run_command
 from utils.constants import VIRTCTL_CMD
 from simple_logger.logger import get_logger
 from ocp_resources.hyperconverged import HyperConverged
@@ -6,7 +6,7 @@ from ocp_resources.hyperconverged import HyperConverged
 LOGGER = get_logger(name=__name__)
 
 
-class MigrationTest(PreIntegrationTest):
+class MigrationTest(KubeVirtTest):
     def setUp(self):
         self.load_template(self.template_file)
         self.create_namespace()

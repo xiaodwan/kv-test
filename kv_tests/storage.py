@@ -1,12 +1,12 @@
 # Test VM with different storage classes
 # cephfs has been covered in other cases, it's not tested here.
-from utils.kubevirt import PreIntegrationTest
+from utils.kubevirt import KubeVirtTest
 from simple_logger.logger import get_logger
 
 LOGGER = get_logger(name=__name__)
 
 
-class StorageTest(PreIntegrationTest):
+class StorageTest(KubeVirtTest):
     def setUp(self):
         super().setUp()
         # VM template file

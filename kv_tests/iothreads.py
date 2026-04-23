@@ -3,13 +3,13 @@ import shlex
 import re
 
 from utils.utils import escape_ansi
-from utils.kubevirt import PreIntegrationTest
+from utils.kubevirt import KubeVirtTest
 from simple_logger.logger import get_logger
 
 LOGGER = get_logger(name=__name__)
 
 
-class IOThreadsTest(PreIntegrationTest):
+class IOThreadsTest(KubeVirtTest):
     def check_vm_xml_shared(self, xml):
         root = ET.fromstring(xml)
         # iothread 2 should match emptydisk

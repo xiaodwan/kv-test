@@ -1,5 +1,5 @@
 from utils.utils import escape_ansi
-from utils.kubevirt import PreIntegrationTest, wait, get_output
+from utils.kubevirt import KubeVirtTest, wait, get_output
 from simple_logger.logger import get_logger
 from ocp_resources.secret import Secret
 from ocp_resources.config_map import ConfigMap
@@ -13,7 +13,7 @@ def auto_update_check(session, cmd, expected_value):
     return actual_val == expected_value
 
 
-class VirtiofsTest(PreIntegrationTest):
+class VirtiofsTest(KubeVirtTest):
     def setUp(self):
         # VM template file
         if "test_secret" in self._testMethodName:

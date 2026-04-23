@@ -1,7 +1,7 @@
 import re
 import xml.etree.ElementTree as ET
 from utils.utils import escape_ansi
-from utils.kubevirt import PreIntegrationTest, wait, run_command
+from utils.kubevirt import KubeVirtTest, wait, run_command
 from utils.constants import VIRTCTL_CMD
 from simple_logger.logger import get_logger
 from ocp_resources.datavolume import DataVolume
@@ -10,7 +10,7 @@ from ocp_resources.datavolume import DataVolume
 LOGGER = get_logger(name=__name__)
 
 
-class HotplugTest(PreIntegrationTest):
+class HotplugTest(KubeVirtTest):
     TEST_DISK_NAME = "myemptydisk"
     TEST_DISK_SERIAL = "123456"
 

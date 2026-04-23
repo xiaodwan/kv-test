@@ -242,7 +242,7 @@ def wait(func, timeout=TIMEOUT_4MINUTES, sleep=5, func_args=None, **kwargs):
             return
 
 
-class PreIntegrationTest(Test):
+class KubeVirtTest(Test):
     """
     A derived Test class includes some public operations when
     executing a test. By this class, we can avoid duplicating

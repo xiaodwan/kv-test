@@ -1,13 +1,13 @@
 import aexpect
 import xml.etree.ElementTree as ET
 
-from utils.kubevirt import PreIntegrationTest, wait
+from utils.kubevirt import KubeVirtTest, wait
 from simple_logger.logger import get_logger
 
 LOGGER = get_logger(name=__name__)
 
 
-class WatchdogTest(PreIntegrationTest):
+class WatchdogTest(KubeVirtTest):
     def setUp(self):
         super().setUp()
         # VM template file

@@ -1,10 +1,10 @@
-from utils.kubevirt import PreIntegrationTest
+from utils.kubevirt import KubeVirtTest
 from simple_logger.logger import get_logger
 
 LOGGER = get_logger(name=__name__)
 
 
-class WindowsTest(PreIntegrationTest):
+class WindowsTest(KubeVirtTest):
     def setUp(self):
         self.template_file = "default_win_uefi.yml"
         self.load_template(self.template_file)

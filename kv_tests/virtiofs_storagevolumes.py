@@ -1,5 +1,5 @@
 from utils.utils import escape_ansi
-from utils.kubevirt import PreIntegrationTest, wait, get_output
+from utils.kubevirt import KubeVirtTest, wait, get_output
 from simple_logger.logger import get_logger
 from ocp_resources.datavolume import DataVolume
 from ocp_resources.persistent_volume_claim import PersistentVolumeClaim
@@ -12,7 +12,7 @@ def auto_update_check(session, cmd, expected_value):
     return actual_val == expected_value
 
 
-class VirtiofsTest(PreIntegrationTest):
+class VirtiofsTest(KubeVirtTest):
     def setUp(self):
         self.test_storage_class = self.test_settings["storage"]["cephfs_storage_class"]
         # VM template file

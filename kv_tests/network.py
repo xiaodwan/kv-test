@@ -1,4 +1,4 @@
-from utils.kubevirt import PreIntegrationTest, get_output
+from utils.kubevirt import KubeVirtTest, get_output
 from simple_logger.logger import get_logger
 
 from ocp_resources.network_attachment_definition import NetworkAttachmentDefinition
@@ -6,7 +6,7 @@ from ocp_resources.network_attachment_definition import NetworkAttachmentDefinit
 LOGGER = get_logger(name=__name__)
 
 
-class NetworkTest(PreIntegrationTest):
+class NetworkTest(KubeVirtTest):
     def setUp(self):
         # VM template file
         self.template_file = "default_uefi.yml"

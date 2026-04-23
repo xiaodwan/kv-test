@@ -12,7 +12,7 @@ RUN dnf update -y && \
     dnf install -y ssh python3 python3-pip && \
     dnf clean all
 
-WORKDIR /pre-integration
+WORKDIR /kubevirt-test
 COPY requirements.txt .
 
 RUN pip3 install --no-cache-dir -r requirements.txt

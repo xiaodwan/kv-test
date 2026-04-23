@@ -1,12 +1,12 @@
 import xml.etree.ElementTree as ET
 
-from utils.kubevirt import PreIntegrationTest
+from utils.kubevirt import KubeVirtTest
 from simple_logger.logger import get_logger
 
 LOGGER = get_logger(name=__name__)
 
 
-class MemoryTest(PreIntegrationTest):
+class MemoryTest(KubeVirtTest):
     def setUp(self):
         LOGGER.setLevel("DEBUG")
         # VM template file

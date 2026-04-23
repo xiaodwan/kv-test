@@ -1,11 +1,11 @@
 # Managing Virtual GPUs documentation
-from utils.kubevirt import PreIntegrationTest
+from utils.kubevirt import KubeVirtTest
 from simple_logger.logger import get_logger
 
 LOGGER = get_logger(name=__name__)
 
 
-class VGPUTest(PreIntegrationTest):
+class VGPUTest(KubeVirtTest):
     def setUp(self):
         # VM template file
         self.template_file = "gpu.yml"
